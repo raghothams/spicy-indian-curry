@@ -1,0 +1,7 @@
+---
+- hosts : home
+  remote_user : init
+  tasks : 
+  - name : ensure git is installed
+    apt : pkg=git state=present
+
