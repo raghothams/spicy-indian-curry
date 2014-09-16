@@ -1,0 +1,28 @@
+---
+- hosts : home
+  remote_user : init
+  tasks : 
+  - name : ensure git is installed
+    apt : pkg=git state=present
+
+  - name : ensure xubuntu is installed
+    apt : pkg=xubuntu-desktop state=present
+
+  - name : ensure kupfer is installed
+    apt : pkg=kupfer state=present
+
+  - name : ensure tmux is installed
+    apt : pkg=tmux state=present
+
+  - name : ensure htop is installed
+    apt : pkg=htop state=present
+    sudo : True
+
+  - name : copy dotfiles from github
+    git : repo=https://github.com/raghothams/dotfiles.git dest=/home/init/code/dotfiles update=no
+    register : dotfiles
+
+  - name : execute dotfiles
+    when : dotfiles|success
+    command : /home/init/code/dotfiles/bootstrap.sh
+
